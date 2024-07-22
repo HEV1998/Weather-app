@@ -10,7 +10,7 @@ const ForecastPage = () => {
   const handleSearch = async () => {
     console.log('Search clicked');
     try {
-      const response = await getForecastByCity(city, unit); // Pass unit
+      const response = await getForecastByCity(city, unit);
       console.log(response.data);
       setForecast(response.data);
     } catch (error) {
@@ -36,15 +36,24 @@ const ForecastPage = () => {
       />
       <button onClick={handleSearch}>Search</button>
       {forecast && (
-        <div>
-          {forecast.list.map((item) => (
-            <div key={item.dt}>
-              <p>{new Date(item.dt * 1000).toLocaleString()}</p>
-              <p>{item.weather[0].description}</p>
-              <p>{item.main.temp}°{unit === 'metric' ? 'C' : 'F'}</p>
-            </div>
-          ))}
-        </div>
+        <table className="table mt-4">
+          <thead>
+            <tr>
+              <th>Date and Time</th>
+              <th>Description</th>
+              <th>Temperature (°{unit === 'metric' ? 'C' : 'F'})</th>
+            </tr>
+          </thead>
+          <tbody>
+            {forecast.list.map((item) => (
+              <tr key={item.dt}>
+                <td>{new Date(item.dt * 1000).toLocaleString()}</td>
+                <td>{item.weather[0].description}</td>
+                <td>{item.main.temp}°{unit === 'metric' ? 'C' : 'F'}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       )}
     </div>
   );
